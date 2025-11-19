@@ -3,7 +3,7 @@ name: Fetch station 166 data
 on:
   schedule:
     # toutes les 10 minutes (cron en UTC)
-    - cron: "*/10 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch: {}   # permet aussi de lancer manuellement
   
 permissions:
