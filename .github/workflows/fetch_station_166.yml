@@ -33,15 +33,13 @@ jobs:
         run: |
           python src/fetch_station_166.py
 
-      - name: Commit and push if data changed
+      - name: Commit and push (always write new row)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if [[ `git status --porcelain` ]]; then
-            git add data/dynamic/station_166_rangueil_metro.csv
-            git commit -m "Update station 166 data [skip ci]"
-            git push
-          else
-            echo "Pas de changements à committer."
-          fi
+          git add data/dynamic/station_166_rangueil_metro.csv
+          git commit -m "Append new station 166 observation [skip ci]" || echo "No changes to commit"
+          git push || echo "No changes to push"
+
+
