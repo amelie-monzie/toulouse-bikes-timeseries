@@ -1,0 +1,14 @@
+# Environnement virtuel
+.venv/
+
+# Fichiers Python temporaires
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers de l'OS
+.DS_Store
+
+# (Optionnel) si un jour tu veux ignorer certains gros fichiers de data
+# data/raw/
