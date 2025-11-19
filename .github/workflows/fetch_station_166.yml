@@ -1,0 +1,44 @@
+name: Fetch station 166 data
+
+on:
+  schedule:
+    # toutes les 10 minutes (cron en UTC)
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}   # permet aussi de lancer manuellement
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run fetch script
+        env:
+          JCDECAUX_API_KEY: ${{ secrets.JCDECAUX_API_KEY }}
+        run: |
+          python src/fetch_station_166.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [[ `git status --porcelain` ]]; then
+            git add data/dynamic/station_166_rangueil_metro.csv
+            git commit -m "Update station 166 data [skip ci]"
+            git push
+          else
+            echo "Pas de changements à committer."
+          fi
