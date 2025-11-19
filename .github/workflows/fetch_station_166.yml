@@ -5,7 +5,10 @@ on:
     # toutes les 10 minutes (cron en UTC)
     - cron: "*/10 * * * *"
   workflow_dispatch: {}   # permet aussi de lancer manuellement
-
+  
+permissions:
+  contents: write
+  
 jobs:
   fetch-and-commit:
     runs-on: ubuntu-latest
